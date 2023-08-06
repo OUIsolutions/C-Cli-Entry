@@ -1,10 +1,12 @@
 
 #include "imports.h"
-#include "StringArray/StringArray.h"
-
+#include "dependencies/CTextEngine.h"
+#include "Garbage/Garbage.h"
+#include "Flags/Flags.h"
 #include "Entry/Entry.h"
-#include "StringArray/StringArray.c"
 
+#include "Garbage/Garbage.c"
+#include "Flags/Flags.c"
 #include "Entry/Entry.c"
 
 

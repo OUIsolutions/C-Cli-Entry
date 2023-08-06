@@ -1,22 +1,31 @@
 
+#define CLI_CASE_SENSITIVE true
+#define CLI_NOT_CASE_SENSITIVE false
+
 
 typedef struct CliEntry{
-    CliStringArray * elements;
+
+    CTextArray * elements;
     char *flag_identifiers;
-    bool case_sensitive_for_flags;
-    bool case_sensitive_for_args;
 
 
-    CliStringArray * (*get_args)(CliStringArray *self, char *flags);
-    char *  (*get_arg)(CliStringArray *self, char *flags);
-    long  (*get_long)(CliStringArray *self, char *flags);
-    double  (*get_double)(CliStringArray *self, char *flags);
-    bool (*exist)(CliStringArray *self, char *flags);
+    CliFlag *(*get_flag)(struct CliEntry *self,const char *flags,bool case_sensitive);
+    char*   (*get_arg)(struct CliEntry *self, int position,bool case_sensitive);
+
+    long    (*get_long)(struct CliEntry *self, int position);
+    double  (*get_double)(struct CliEntry *self, int position);
+    double  (*get_bool)(struct CliEntry *self, int position);
+
 
 }CliEntry;
 
 CliEntry * newCliEntry(int argc, char **argv);
 
+CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive);
+char*   CliEntry_get_arg(CliEntry *self, int position,bool case_sensitive);
 
-CliStringArray * CliStringArray_get_args(char *flags);
+long    CliEntry_get_long(CliEntry *self, int position);
+double  CliEntry_get_double(CliEntry *self, int position);
+double  CliEntry_get_bool(CliEntry *self, int position);
+
 
