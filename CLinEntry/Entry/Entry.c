@@ -18,8 +18,9 @@ CliEntry * newCliEntry(int argc, char **argv){
 
 CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive){
     CTextArray *identifiers = CTextArray_split(self->flag_identifiers,",");
-    CTextArray_foreach(identifiers,CTextStack_trim);
+    CTextArray_foreach(identifiers,CTextStack_self_trim);
     
+
 }
 char*   CliEntry_get_str(CliEntry *self, int position, bool case_sensitive);
 
