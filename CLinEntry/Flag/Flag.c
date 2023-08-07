@@ -14,7 +14,7 @@ void private_cli_CliFlag_free(CliFlag *self){
 
 
 int CliFlag_typeof_arg(CliFlag *self, int position){
-    return -1;
+
 }
 
 const char *CliFlag_type_of_arg_in_str(CliFlag *self, int position){

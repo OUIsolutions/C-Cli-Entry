@@ -51,6 +51,22 @@ CTextStack *private_cli_get_flag_if_its_an_flag(CTextArray *identifiers,CTextSta
 
     return NULL;
 }
+int private_cli_get_type_from_array(CTextArray *elements,int position){
+    if(position >=elements->size){
+        return -1;
+    }
+    CTextStack *current = elements->stacks[position];
+    return CTextStack_typeof(current);
+}
+
+
+const char * private_cli_get_type_in_str_from_array(CTextArray *elements,int position){
+    if(position >=elements->size){
+        return NULL;
+    }
+    CTextStack *current = elements->stacks[position];
+    return CTextStack_typeof_in_str(current);
+}
 
 char * private_cli_get_str_from_array(privateCliGarbage *garbage, CTextArray *elements, int position,bool case_sensitive){
     if(position >=elements->size){
