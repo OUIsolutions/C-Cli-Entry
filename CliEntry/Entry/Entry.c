@@ -80,7 +80,7 @@ bool CliEntry_get_bool(CliEntry *self, int position){
     return private_cli_get_bool_from_array(self->elements,position);
 }
 bool  CliEntry_represent(CliEntry *self){
-    CTextArray_represent(self);
+    CTextArray_represent(self->elements);
 }
 void CliEntry_free(struct CliEntry *self){
     CTextArray_free(self->elements);
