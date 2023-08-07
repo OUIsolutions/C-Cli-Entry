@@ -18,7 +18,6 @@ CliEntry * newCliEntry(int argc, char **argv){
 
 CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive){
     CTextArray *identifiers = private_cli_parse_flags(self->flag_identifiers,case_sensitive);
-    CTextArray_represent(identifiers);
     CTextArray *formated_flags = private_cli_parse_flags(flags,case_sensitive);
 
     for(int i = 0; i < self->size;i++){
