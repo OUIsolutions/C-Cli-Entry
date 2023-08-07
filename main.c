@@ -1,6 +1,6 @@
 
 
-#include "CLinEntry/CliEntryMain.h"
+#include "CliEntry/CliEntryMain.h"
 
 int main(int argc, char **argv){
     CliEntry *e = newCliEntry(argc,argv);
