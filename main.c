@@ -4,13 +4,8 @@
 
 int main(int argc, char **argv){
     CliEntry *e = newCliEntry(argc,argv);
- 
-    char *r2 = CliEntry_get_str(e,1,CLI_NOT_CASE_SENSITIVE);
-    if(r2){
-        printf("%s",r2);
 
-    }
-
+    CliEntry_get_flag(e,"help | h ",CLI_NOT_CASE_SENSITIVE);
     CliEntry_free(e);
     
 }
