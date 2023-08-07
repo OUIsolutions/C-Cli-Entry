@@ -1,7 +1,8 @@
 
 #include "imports.h"
-
 #include "dependencies/CTextEngine.h"
+#include "types.h"
+
 #include "Garbage/Garbage.h"
 #include "Extra/Extra.h"
 #include "Flag/Flag.h"
