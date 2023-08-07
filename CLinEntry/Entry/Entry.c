@@ -28,19 +28,25 @@ char*   CliEntry_get_str(CliEntry *self, int position, bool case_sensitive){
 }
 
 long CliEntry_get_long(CliEntry *self, int position){
-    long converted_position = private_CText_transform_index(self->elements->size,position);
-    CTextStack *current = self->elements->stacks[converted_position];
+    if(position >=self->size){
+        return -1;
+    }
+    CTextStack *current = self->elements->stacks[position];
     return CTextStack_parse_to_integer(current);
 }
 double CliEntry_get_double(CliEntry *self, int position){
-    long converted_position = private_CText_transform_index(self->elements->size,position);
-    CTextStack *current = self->elements->stacks[converted_position];
+    if(position >=self->size){
+        return -1;
+    }
+    CTextStack *current = self->elements->stacks[position];
     return CTextStack_parse_to_double(current);
 }
 
-double CliEntry_get_bool(CliEntry *self, int position){
-    long converted_position = private_CText_transform_index(self->elements->size,position);
-    CTextStack *current = self->elements->stacks[converted_position];
+bool CliEntry_get_bool(CliEntry *self, int position){
+    if(position >=self->size){
+        return -1;
+    }
+    CTextStack *current = self->elements->stacks[position];
     return CTextStack_parse_to_bool(current);
 }
 
