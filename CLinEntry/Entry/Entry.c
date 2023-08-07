@@ -21,7 +21,12 @@ CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive)
     CTextArray *formated_flags = private_cli_parse_flags(flags,case_sensitive);
 
     for(int i = 0; i < self->size;i++){
-        CTextStack *possible_flag = self->elements->stacks[i];
+        CTextStack *possible_flag = private_cli_get_flag_if_its_an_flag(identifiers,self->elements->stacks[i],case_sensitive);
+        if(possible_flag){
+            printf("flag :%s\n",possible_flag->rendered_text);
+            CTextStack_free(possible_flag);
+
+        }
 
     }
 
