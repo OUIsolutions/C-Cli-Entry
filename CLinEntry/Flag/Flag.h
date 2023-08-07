@@ -2,6 +2,7 @@
 typedef struct CliFlag{
 
     CTextArray  *elements;
+    bool exist;
     privateCliGarbage *private_garbage;
     int size;
 

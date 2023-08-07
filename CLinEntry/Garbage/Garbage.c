@@ -9,7 +9,7 @@ privateCliGarbage *private_cli_newGarbageArray(){
     return self;
 }
 
-privateCliGarbage *private_cli_append_gargabe(privateCliGarbage*self, int type, void *value){
+privateCliGarbage *private_CliGarbage_append(privateCliGarbage*self, int type, void *value){
     self->values = (privateCliGarbageElement**) realloc(self->values, (self->size + 1) * sizeof (privateCliGarbageElement**));
     privateCliGarbageElement *new_garbage = (privateCliGarbageElement*) malloc(sizeof (privateCliGarbageElement));
     new_garbage->type = type;
