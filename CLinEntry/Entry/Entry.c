@@ -58,7 +58,7 @@ CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive)
 }
 
 char*   CliEntry_get_str(CliEntry *self, int position, bool case_sensitive){
-    return private_cli_get_str_from_array(self->garbage,self->elements,position,case_sensitive)
+    return private_cli_get_str_from_array(self->garbage,self->elements,position,case_sensitive);
 }
 
 long CliEntry_get_long(CliEntry *self, int position){
