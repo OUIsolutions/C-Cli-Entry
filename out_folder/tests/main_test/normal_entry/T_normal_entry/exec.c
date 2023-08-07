@@ -1,6 +1,6 @@
 
 
-#include "../../CliEntryTest.h"
+#include "../../../CliEntryTest.h"
 
 int main(int argc, char **argv){
     char *entry[]= {"aaa","bbbb"};

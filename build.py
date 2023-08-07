@@ -5,7 +5,7 @@ from Build.full_folder_zip import zip_folder
 
 
 STARTER = 'CliEntry/CliEntryMain.h'
-TEST_NAME  = 'CliEntryMain_test.h'
+TEST_NAME  = 'CliEntryTest.h'
 
 OUTPUT_TEST = 'tests/CliEntryTest.h'
 OUTPUT = 'CliEntry.h'
