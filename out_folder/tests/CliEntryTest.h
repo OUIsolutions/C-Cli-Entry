@@ -1469,6 +1469,8 @@ char*   CliEntry_get_str(CliEntry *self, int position, bool case_sensitive);
 
 long    CliEntry_get_long(CliEntry *self, int position);
 double  CliEntry_get_double(CliEntry *self, int position);
+bool  CliEntry_represent(CliEntry *self);
+
 bool  CliEntry_get_bool(CliEntry *self, int position);
 void CliEntry_free(struct CliEntry *self);
 
@@ -1780,7 +1782,9 @@ double CliEntry_get_double(CliEntry *self, int position){
 bool CliEntry_get_bool(CliEntry *self, int position){
     return private_cli_get_bool_from_array(self->elements,position);
 }
-
+bool  CliEntry_represent(CliEntry *self){
+    CTextArray_represent(self->elements);
+}
 void CliEntry_free(struct CliEntry *self){
     CTextArray_free(self->elements);
     private_cli_free_garbage(self->private_garbage);

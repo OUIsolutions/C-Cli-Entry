@@ -43,6 +43,8 @@ class FolderTestPresetExtras(FolderTestPressetPrints):
 
 
     def _side_effect_folder_changed(self)->bool:
+        if self._side_effect_folder is None:
+            return False
         return not are_folders_equal(self._side_effect_folder,'side_effect_copy')
 
 
