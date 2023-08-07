@@ -2,25 +2,30 @@
 
 
 int private_cli_compare_elements_size(const void *element1,const  void *element2){
-    CTextStack  *s1 = (CTextStack*)element1;
-    CTextStack  *s2 = (CTextStack*)element2;
-    return (int)(s1->size - s2->size);
+    CTextStack  *s1 = *(CTextStack**)element1;
+    CTextStack  *s2 = *(CTextStack**)element2;
+    printf("element1  %s\n",s1->rendered_text);
+
+    int comparation = (int)(s1->size - s2->size);
+
+    return comparation;
 }
 
 
-void private_cli_sort_text_arrays_by_size(CTextArray *element){
-    qsort(element->stacks, element->size,sizeof(CTextStack *),private_cli_compare_elements_size);
+void private_cli_sort_text_arrays_by_size(CTextArray *elements){
+    qsort(elements->stacks, (size_t)elements->size,sizeof(CTextStack **),private_cli_compare_elements_size);
 }
 
 
 CTextArray * private_cli_parse_flags(const char *flags,bool case_sensitive){
     CTextArray *elements = CTextArray_split(flags,"|");
+    private_cli_sort_text_arrays_by_size(elements);
+
     CTextArray_foreach(elements,CTextStack_self_trim);
-    
+
     if(!case_sensitive){
         CTextArray_foreach(elements,CTextStack_self_lower);
     }
-    private_cli_sort_text_arrays_by_size(elements);
     return elements;
 }
 
