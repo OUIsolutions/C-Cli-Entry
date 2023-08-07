@@ -51,3 +51,44 @@ CTextStack *private_cli_get_flag_if_its_an_flag(CTextArray *identifiers,CTextSta
 
     return NULL;
 }
+
+char * private_cli_get_str_from_array(privateCliGarbage *garbage, CTextArray *elements, int position,bool case_sensitive){
+    if(position >=elements->size){
+        return NULL;
+    }
+    CTextStack *current = elements->stacks[position];
+    char *result;
+    if(case_sensitive){
+        CTextStack *formated = CTextStack_lower(current);
+        result = CTextStack_self_transform_in_string_and_self_clear(formated);
+    } else{
+        result =strdup(current->rendered_text);
+    }
+
+    private_CliGarbage_append(garbage, PRIVATE_CLI_CHAR_TRASH, result);
+    return result;
+}
+
+long private_cli_get_long_from_array(CTextArray *elements,int position){
+    if(position >=elements->size){
+        return -1;
+    }
+    CTextStack *current = elements->stacks[position];
+    return CTextStack_parse_to_integer(current);
+}
+
+double private_cli_get_double_from_array(CTextArray *elements,int position){
+    if(position >=elements->size){
+        return -1;
+    }
+    CTextStack *current = elements->stacks[position];
+    return CTextStack_parse_to_double(current);
+}
+
+bool private_cli_get_bool_from_array(CTextArray *elements,int position){
+    if(position >=elements->size){
+        return false;
+    }
+    CTextStack *current = elements->stacks[position];
+    return CTextStack_parse_to_bool(current);
+}

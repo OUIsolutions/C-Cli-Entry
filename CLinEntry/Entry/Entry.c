@@ -58,38 +58,19 @@ CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive)
 }
 
 char*   CliEntry_get_str(CliEntry *self, int position, bool case_sensitive){
-    if(position >=self->size){
-        return NULL;
-    }
-
-    CTextStack *current = self->elements->stacks[position];
-    char *result = strdup(current->rendered_text);
-    private_CliGarbage_append(self->garbage, PRIVATE_CLI_CHAR_TRASH, result);
-    return result;
+    return private_cli_get_str_from_array(self->garbage,self->elements,position,case_sensitive)
 }
 
 long CliEntry_get_long(CliEntry *self, int position){
-    if(position >=self->size){
-        return -1;
-    }
-    CTextStack *current = self->elements->stacks[position];
-    return CTextStack_parse_to_integer(current);
+    return private_cli_get_long_from_array(self->elements,position);
 }
 
 double CliEntry_get_double(CliEntry *self, int position){
-    if(position >=self->size){
-        return -1;
-    }
-    CTextStack *current = self->elements->stacks[position];
-    return CTextStack_parse_to_double(current);
+    return private_cli_get_double_from_array(self->elements,position);
 }
 
 bool CliEntry_get_bool(CliEntry *self, int position){
-    if(position >=self->size){
-        return false;
-    }
-    CTextStack *current = self->elements->stacks[position];
-    return CTextStack_parse_to_bool(current);
+    return private_cli_get_bool_from_array(self->elements,position);
 }
 
 void CliEntry_free(struct CliEntry *self){

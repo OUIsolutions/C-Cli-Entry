@@ -8,9 +8,8 @@ int main(int argc, char **argv){
     CliFlag *f = CliEntry_get_flag(e,"help | h ",CLI_NOT_CASE_SENSITIVE);
     
 
-    if(f){
-        CTextArray_represent(f->elements);
-
+    if(f->exist){
+        printf("flag exist\n");
     }
     CliEntry_free(e);
 
