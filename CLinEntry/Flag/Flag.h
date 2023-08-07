@@ -6,12 +6,7 @@ typedef struct CliFlag{
     bool exist;
 
     int size;
-    int      (*typeof_arg)(struct CliFlag *self, int position);
-    const char *(*type_of_arg_in_str)(struct CliFlag *self, int position);
-    char*   (*get_string)(struct CliFlag *self, int position,bool case_sensitive);
-    long    (*get_long)(struct CliFlag *self, int position);
-    double  (*get_double)(struct CliFlag *self, int position);
-    double  (*get_bool)(struct CliFlag *self, int position);
+
 
 
 }CliFlag;
