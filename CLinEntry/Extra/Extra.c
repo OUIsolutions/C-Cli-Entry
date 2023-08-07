@@ -9,7 +9,7 @@ int private_cli_compare_elements_size(const void *element1,const  void *element2
 
 
 void private_cli_sort_text_arrays_by_size(CTextArray *element){
-    qsort(element, element->size,sizeof(CTextArray*),private_cli_compare_elements_size);
+    qsort(element->stacks, element->size,sizeof(CTextStack *),private_cli_compare_elements_size);
 }
 
 
