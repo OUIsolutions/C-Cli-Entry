@@ -4,9 +4,10 @@
 
 int main(int argc, char **argv){
     CliEntry *e = newCliEntry(argc,argv);
-    double r = CliEntry_get_double(e,1);
-    long r1 =  CliEntry_get_long(e,1);
+ 
+    char *r2 = CliEntry_get_str(e,1,CLI_NOT_CASE_SENSITIVE);
+    printf("%s",r2);
 
-    printf("%lf",r);
+    CliEntry_free(e);
     
 }
