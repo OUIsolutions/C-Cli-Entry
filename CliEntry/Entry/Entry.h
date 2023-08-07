@@ -24,6 +24,8 @@ char*   CliEntry_get_str(CliEntry *self, int position, bool case_sensitive);
 
 long    CliEntry_get_long(CliEntry *self, int position);
 double  CliEntry_get_double(CliEntry *self, int position);
+bool  CliEntry_represent(CliEntry *self);
+
 bool  CliEntry_get_bool(CliEntry *self, int position);
 void CliEntry_free(struct CliEntry *self);
 

@@ -48,6 +48,8 @@ class FolderTestPresetExtras(FolderTestPressetPrints):
 
 
     def _rebase_side_effect_folder(self):
+        if self._side_effect_folder is None:
+            return 
         rmtree(self._side_effect_folder,ignore_errors=True)
         copytree(f'side_effect_copy',self._side_effect_folder)
 
