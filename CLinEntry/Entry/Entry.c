@@ -14,17 +14,20 @@ CliEntry * newCliEntry(int argc, char **argv){
 
 }
 
+
+
 CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive){
     
 }
 char*   CliEntry_get_str(CliEntry *self, int position, bool case_sensitive){
-        long converted_position = private_CText_transform_index(self->elements->size,position);
-        printf("%ld\n",converted_position);
-        
-        CTextStack *current = self->elements->stacks[converted_position];
-        char *result = strdup(current->rendered_text);
-        private_cli_append_gargabe(self->garbage_array,PRIVATE_CLI_CHAR_TRASH,result);
-        return result;
+    if(position >=self->size){
+        return NULL;
+    }
+
+    CTextStack *current = self->elements->stacks[position];
+    char *result = strdup(current->rendered_text);
+    private_cli_append_gargabe(self->garbage_array,PRIVATE_CLI_CHAR_TRASH,result);
+    return result;
 }
 
 long CliEntry_get_long(CliEntry *self, int position){
@@ -44,7 +47,7 @@ double CliEntry_get_double(CliEntry *self, int position){
 
 bool CliEntry_get_bool(CliEntry *self, int position){
     if(position >=self->size){
-        return -1;
+        return false;
     }
     CTextStack *current = self->elements->stacks[position];
     return CTextStack_parse_to_bool(current);
