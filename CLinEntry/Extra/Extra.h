@@ -1,4 +1,5 @@
 
+void private_cli_parse_flags_sort_text_array(CTextArray *element);
 
 CTextArray * private_cli_parse_flags(const char *flags,bool case_sensitive);
 
