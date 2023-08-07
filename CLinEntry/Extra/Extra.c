@@ -4,9 +4,9 @@
 int private_cli_compare_elements_size(const void *element1,const  void *element2){
     CTextStack  *s1 = *(CTextStack**)element1;
     CTextStack  *s2 = *(CTextStack**)element2;
-    
 
-    return  (int)(s2->size - s1->size);
+    return (int)(s2->size - s1->size);
+
 
 }
 
