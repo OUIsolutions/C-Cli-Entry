@@ -1129,7 +1129,7 @@ long private_CText_transform_index(long size , long value){
     long formated_value = value;
 
     if(formated_value >= size){
-        formated_value = size -1;
+        formated_value = size;
     }
 
     if(formated_value  < 0){
