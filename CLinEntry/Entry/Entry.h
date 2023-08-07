@@ -6,7 +6,7 @@
 typedef struct CliEntry{
 
     CTextArray * elements;
-    privateCliGarbageArray  * garbage_array;
+    privateCliGarbage  * garbage_array;
 
     char *flag_identifiers;
 

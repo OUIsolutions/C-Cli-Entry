@@ -2,25 +2,25 @@
 
 
 
-privateCliGarbageArray *private_cli_newGarbageArray(){
-    privateCliGarbageArray *self = (privateCliGarbageArray*) malloc(sizeof (privateCliGarbageArray));
+privateCliGarbage *private_cli_newGarbageArray(){
+    privateCliGarbage *self = (privateCliGarbage*) malloc(sizeof (privateCliGarbage));
     self->values = malloc(0);
     self->size = 0;
     return self;
 }
 
-privateCliGarbageArray *private_cli_append_gargabe(privateCliGarbageArray*self,int type, void *value){
-    self->values = (privateCliGarbage**) realloc(self->values,(self->size+1) * sizeof (privateCliGarbage**));
-    privateCliGarbage *new_garbage = (privateCliGarbage*) malloc(sizeof (privateCliGarbage));
+privateCliGarbage *private_cli_append_gargabe(privateCliGarbage*self, int type, void *value){
+    self->values = (privateCliGarbageElement**) realloc(self->values, (self->size + 1) * sizeof (privateCliGarbageElement**));
+    privateCliGarbageElement *new_garbage = (privateCliGarbageElement*) malloc(sizeof (privateCliGarbageElement));
     new_garbage->type = type;
     new_garbage->value = value;
     self->values[self->size] = new_garbage;
     self->size+=1;;
 }
 
-privateCliGarbageArray *private_cli_free_garbage(privateCliGarbageArray*self){
+privateCliGarbage *private_cli_free_garbage(privateCliGarbage*self){
     for(int i = 0 ; i < self->size; i++){
-        privateCliGarbage *current = self->values[i];
+        privateCliGarbageElement *current = self->values[i];
         if(current->type == PRIVATE_CLI_CHAR_TRASH){
             free(current->value);
         }
