@@ -14,12 +14,13 @@ void private_cli_CliFlag_free(CliFlag *self){
 
 
 int CliFlag_typeof_arg(CliFlag *self, int position){
-
+    return private_cli_get_type_from_array(self->elements,position);
 }
 
-const char *CliFlag_type_of_arg_in_str(CliFlag *self, int position){
-
+const char *CliFlag_typeof_arg_in_str(CliFlag *self, int position){
+    return private_cli_get_type_in_str_from_array(self->elements,position);
 }
+
 char* CliFlag_get_str(CliFlag *self, int position, bool case_sensitive){
     return private_cli_get_str_from_array(self->private_garbage,self->elements, position,case_sensitive);
 }

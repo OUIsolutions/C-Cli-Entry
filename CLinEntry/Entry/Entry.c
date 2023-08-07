@@ -56,6 +56,13 @@ CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive)
     return flag;
 
 }
+int CliEntry_typeof_arg(CliEntry *self,int position){
+    return private_cli_get_type_from_array(self->elements,position);
+}
+
+const char *CliEntry_typeof_arg_in_str(CliEntry *self,int position){
+    return private_cli_get_type_in_str_from_array(self->elements,position);
+}
 
 char*   CliEntry_get_str(CliEntry *self, int position, bool case_sensitive){
     return private_cli_get_str_from_array(self->private_garbage, self->elements, position, case_sensitive);

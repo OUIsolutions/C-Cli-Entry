@@ -16,6 +16,8 @@ typedef struct CliEntry{
 }CliEntry;
 
 CliEntry * newCliEntry(int argc, char **argv);
+int CliEntry_typeof_arg(CliEntry *self,int position);
+const char *CliEntry_typeof_arg_in_str(CliEntry *self,int position);
 
 CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive);
 char*   CliEntry_get_str(CliEntry *self, int position, bool case_sensitive);
