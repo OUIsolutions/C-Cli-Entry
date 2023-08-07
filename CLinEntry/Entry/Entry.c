@@ -6,7 +6,6 @@ CliEntry * newCliEntry(int argc, char **argv){
     self->elements = newCTextArray();
     self->garbage_array = private_cli_newGarbageArray();
 
-    self->flag_identifiers = " - | -- | ---";
     for(int i = 0; i < argc; i++){
         CTextArray_append_string(self->elements,argv[i]);
     }
@@ -17,7 +16,6 @@ CliEntry * newCliEntry(int argc, char **argv){
 
 
 CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive){
-    CTextArray *identifiers = private_cli_parse_flags(self->flag_identifiers,case_sensitive);
     CTextArray *formated_flags = private_cli_parse_flags(flags,case_sensitive);
 
     for(int i = 0; i < self->size;i++){
