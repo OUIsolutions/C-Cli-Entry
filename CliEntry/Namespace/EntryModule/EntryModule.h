@@ -1,13 +1,16 @@
 
 typedef struct CliEntryModule{
 
-    CliFlag *(*get_flag)(struct CliEntry *self,const char *flags,bool case_sensitive);
-    char*   (*get_str)(struct CliEntry *self, int position, bool case_sensitive);
+    CliEntry *(*newEntry)(int argc, char **argv);
+    int (*typeof_arg)(CliEntry *self, int position);
+    const char *(*typeof_arg_in_str)(CliEntry *self, int position);
+    CliFlag *(*get_flag)(CliEntry *self,const char *flags,bool case_sensitive);
+    char*   (*get_str)(CliEntry *self, int position, bool case_sensitive);
 
-    long    (*get_long)(struct CliEntry *self, int position);
-    double  (*get_double)(struct CliEntry *self, int position);
-    double  (*get_bool)(struct CliEntry *self, int position);
-    void (*free)(struct CliEntry *self);
+    long    (*get_long)(CliEntry *self, int position);
+    double  (*get_double)(CliEntry *self, int position);
+    bool  (*get_bool)(CliEntry *self, int position);
+    void (*free)(CliEntry *self);
 
 }CliEntryModule;
 
