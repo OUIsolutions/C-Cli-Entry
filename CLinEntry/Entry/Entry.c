@@ -4,7 +4,7 @@ CliEntry * newCliEntry(int argc, char **argv){
     CliEntry *self = (CliEntry*) malloc(sizeof (CliEntry));
     self->size = argc;
     self->elements = newCTextArray();
-    self->garbage = private_cli_newGarbageArray();
+    self->private_garbage = private_cli_newGarbageArray();
 
     self->flag_identifiers = " - | -- | --- ";
     for(int i = 0; i < argc; i++){
@@ -21,7 +21,7 @@ CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive)
     CTextArray *formated_flags = private_cli_parse_flags(flags,case_sensitive);
 
     CliFlag *flag = private_cli_newCliFlag();
-    private_CliGarbage_append(self->garbage,PRIVATE_CLI_FLAG_TRASH,flag);
+    private_CliGarbage_append(self->private_garbage, PRIVATE_CLI_FLAG_TRASH, flag);
     for(int i = 0; i < self->size;i++){
 
 
@@ -58,7 +58,7 @@ CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive)
 }
 
 char*   CliEntry_get_str(CliEntry *self, int position, bool case_sensitive){
-    return private_cli_get_str_from_array(self->garbage,self->elements,position,case_sensitive);
+    return private_cli_get_str_from_array(self->private_garbage, self->elements, position, case_sensitive);
 }
 
 long CliEntry_get_long(CliEntry *self, int position){
@@ -75,7 +75,7 @@ bool CliEntry_get_bool(CliEntry *self, int position){
 
 void CliEntry_free(struct CliEntry *self){
     CTextArray_free(self->elements);
-    private_cli_free_garbage(self->garbage);
+    private_cli_free_garbage(self->private_garbage);
     free(self);
 }
 
