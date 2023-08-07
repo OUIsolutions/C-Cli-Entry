@@ -17,6 +17,10 @@ int CliFlag_typeof_arg(CliFlag *self, int position){
     return private_cli_get_type_from_array(self->elements,position);
 }
 
+bool CliFlag_is_numeric(CliFlag *self, int position){
+    return private_cli_verifiy_if_element_is_numeric(self->elements,position);
+}
+
 const char *CliFlag_typeof_arg_in_str(CliFlag *self, int position){
     return private_cli_get_type_in_str_from_array(self->elements,position);
 }

@@ -1,6 +1,5 @@
 
 import Build.CToolKit as ct
-from Build.exemple_build import create_exemples
 from Build.full_folder_zip import zip_folder
 
 
