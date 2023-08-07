@@ -20,18 +20,44 @@ CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive)
     CTextArray *identifiers = private_cli_parse_flags(self->flag_identifiers,case_sensitive);
     CTextArray *formated_flags = private_cli_parse_flags(flags,case_sensitive);
 
-    for(int i = 0; i < self->size;i++){
-        CTextStack *possible_flag = private_cli_get_flag_if_its_an_flag(identifiers,self->elements->stacks[i],case_sensitive);
-        if(possible_flag){
-            printf("flag :%s\n",possible_flag->rendered_text);
-            CTextStack_free(possible_flag);
+    bool found_flag = false;
+    CliFlag *flag = private_cli_newCliFlag();
 
+    for(int i = 0; i < self->size;i++){
+
+
+        CTextStack *possible_flag = private_cli_get_flag_if_its_an_flag(identifiers,self->elements->stacks[i],case_sensitive);
+        //means its an flag
+        if(possible_flag){
+            //means its the  end of current flag and start of other
+            if(found_flag){
+                CTextStack_free(possible_flag);
+                break;
+            }
+            else{
+                if(CTextArray_includes(formated_flags,possible_flag->rendered_text)){
+                    found_flag = true;
+                }
+            }
+            CTextStack_free(possible_flag);
         }
 
+        else{
+            //means its an normal atribute
+            if(found_flag){
+                CTextArray_append_string(flag->elements,self->elements->stacks[i]->rendered_text);
+            }
+        }
     }
+
 
     CTextArray_free(identifiers);
     CTextArray_free(formated_flags);
+    if(found_flag){
+        return flag;
+    }
+    private_cli_CliFlag_free(flag);
+    return NULL;
 
 }
 

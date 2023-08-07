@@ -2,17 +2,15 @@
 typedef struct CliFlag{
 
     CTextArray  *elements;
-
-    bool exist;
-
+    privateCliGarbage *private_garbage;
     int size;
 
 
 
 }CliFlag;
 
-CliFlag *private_cli_newCliFlag(CTextArray *elements);
-void private_cli_freeCliFlag(CliFlag *self);
+CliFlag *private_cli_newCliFlag();
+void private_cli_CliFlag_free(CliFlag *self);
 
 int CliFlag_typeof_arg(CliFlag *self, int position);
 const char *CliFlag_type_of_arg_in_str(CliFlag *self, int position);

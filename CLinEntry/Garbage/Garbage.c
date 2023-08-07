@@ -26,7 +26,7 @@ privateCliGarbage *private_cli_free_garbage(privateCliGarbage*self){
         }
         if(current->type == PRIVATE_CLI_FLAG_TRASH){
             CliFlag *current_flag = (CliFlag*)current->value;
-            private_cli_freeCliFlag(current_flag);
+            private_cli_CliFlag_free(current_flag);
         }
         free(current);
     }
