@@ -53,16 +53,23 @@ CTextStack *private_cli_get_flag_if_its_an_flag(CTextArray *identifiers,CTextSta
 }
 int private_cli_get_type_from_array(CTextArray *elements,int position){
     if(position >=elements->size){
-        return -1;
+        return CLI_NOT_EXIST;
     }
     CTextStack *current = elements->stacks[position];
     return CTextStack_typeof(current);
+}
+bool private_cli_verifiy_if_element_is_numeric(CTextArray *elements,int position){
+    int type = private_cli_get_type_from_array(elements,position);
+    if(type ==CLI_LONG || type == CLI_DOUBLE){
+        return true;
+    }
+    return false;
 }
 
 
 const char * private_cli_get_type_in_str_from_array(CTextArray *elements,int position){
     if(position >=elements->size){
-        return NULL;
+        return  "not exist";
     }
     CTextStack *current = elements->stacks[position];
     return CTextStack_typeof_in_str(current);

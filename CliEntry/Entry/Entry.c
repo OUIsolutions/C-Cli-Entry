@@ -60,6 +60,10 @@ int CliEntry_typeof_arg(CliEntry *self,int position){
     return private_cli_get_type_from_array(self->elements,position);
 }
 
+bool CliEntry_is_numeric(CliEntry *self,int position){
+    return private_cli_verifiy_if_element_is_numeric(self->elements,position);
+}
+
 const char *CliEntry_typeof_arg_in_str(CliEntry *self,int position){
     return private_cli_get_type_in_str_from_array(self->elements,position);
 }

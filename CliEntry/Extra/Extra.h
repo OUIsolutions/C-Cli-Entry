@@ -9,6 +9,8 @@ CTextStack *private_cli_get_flag_if_its_an_flag(CTextArray *identifiers,CTextSta
 //getterso of arrays
 int private_cli_get_type_from_array(CTextArray *elements,int position);
 
+bool private_cli_verifiy_if_element_is_numeric(CTextArray *elements,int position);
+
 const char * private_cli_get_type_in_str_from_array(CTextArray *elements,int position);
 
 char * private_cli_get_str_from_array(privateCliGarbage *garbage, CTextArray *elements, int position,bool case_sensitive);

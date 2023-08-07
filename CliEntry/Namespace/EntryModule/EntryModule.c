@@ -1,6 +1,7 @@
 CliEntryModule newCliEntryModule(){
     CliEntryModule self = {0};
     self.newEntry = newCliEntry;
+    self.is_numeric = CliEntry_is_numeric;
     self.typeof_arg = CliEntry_typeof_arg;
     self.typeof_arg_in_str = CliEntry_typeof_arg_in_str;
     self.get_flag =CliEntry_get_flag;
