@@ -3,6 +3,7 @@
 CTextArray * private_cli_parse_flags(const char *flags,bool case_sensitive){
     CTextArray *elements = CTextArray_split(flags,"|");
     CTextArray_foreach(elements,CTextStack_self_trim);
+    
     if(!case_sensitive){
         CTextArray_foreach(elements,CTextStack_self_lower);
     }
