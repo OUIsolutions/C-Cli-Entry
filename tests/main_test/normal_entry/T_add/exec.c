@@ -1,6 +1,6 @@
 
 
-#include "CliEntry/CliEntryMain.h"
+#include "../../../CliEntryTest.h"
 
 
 int main(int argc, char **argv){
