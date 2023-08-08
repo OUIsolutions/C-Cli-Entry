@@ -62,6 +62,7 @@ int main(int argc, char **argv){
         return 0;
     }
     printf("result: %lf\n",result);
+    cli.entry.free(entry);
     return 0;
 
 
