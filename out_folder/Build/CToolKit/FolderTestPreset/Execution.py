@@ -18,6 +18,7 @@ class FolderTestPressetExecution(FolderTestPressetCreation):
 
         execution_file = self._get_file_to_execute(folder)
         expected_file = self._get_expected_file(folder)
+        
 
         if expected_file is None:
             raise FileNotFoundError(f'could not locate an expected.* in {folder}')
@@ -26,6 +27,10 @@ class FolderTestPressetExecution(FolderTestPressetCreation):
         with open(expected_file,'r') as arq:
             expected_content = arq.read()
 
+        with open(f'{folder}/entry.txt','r') as arq:
+            entry_content = arq.read()
+            entry_values = entry_content.split(' ')
+
         sanitized_expected :dict or List[str] = sanitize_value(expected_file,expected_content)
 
 
@@ -33,7 +38,8 @@ class FolderTestPressetExecution(FolderTestPressetCreation):
                 file=execution_file,
                 compiler=self._compiler,
                 use_valgrind=self._use_valgrind,
-                raise_warnings=self._raise_warnings
+                raise_warnings=self._raise_warnings,
+                execution_flags=entry_values
         )
 
         

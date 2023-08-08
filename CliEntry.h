@@ -299,6 +299,11 @@ void CTextArray_represent(CTextArray *self);
 typedef struct CTextStackModule{
 
     //admnistrative methods
+    CTextStack  *(*newStack)(const char *line_breaker, const char *separator);
+    CTextStack *(*newStack_string)(const char *starter);
+    CTextStack *(*newStack_string_getting_ownership)(const char *starter);
+    CTextStack *(*newStack_string_empty)();
+
     void (*free)(struct CTextStack *self);
     struct CTextStack *(*clone)(struct CTextStack *self);
     void (*represent)(struct CTextStack *self);
@@ -385,7 +390,7 @@ CTextStackModule newCTextStackModule();
 
 
 typedef struct CTextArrayModule{
-
+    CTextArray *(*newArray)();
     void (*append)(CTextArray *self,CTextStack *element);
     void (*append_string)(CTextArray *self,const char *element);
     CTextStack * (*join)(CTextArray *self,const char *separator);
@@ -1269,7 +1274,10 @@ void CTextArray_represent(CTextArray *self){
 
 CTextStackModule newCTextStackModule(){
     struct CTextStackModule self = {0};
-
+    self.newStack = newCTextStack;
+    self.newStack_string = newCTextStack_string;
+    self.newStack_string_empty = newCTextStack_string_empty;
+    self.newStack_string_getting_ownership = newCTextStack_string_getting_ownership;
     self.text = CTextStack_text;
     self.segment_text = CTextStack_segment_text;
     self.format = CTextStack_format;
@@ -1340,6 +1348,7 @@ CTextStackModule newCTextStackModule(){
 
 CTextArrayModule newCTextArrayModule(){
     CTextArrayModule module = {0};
+    module.newArray = newCTextArray;
     module.append = CTextArray_append;
     module.append_string = CTextArray_append_string;
     module.join = CTextArray_join;
@@ -1365,7 +1374,7 @@ CTextNamespace newCTextNamespace(){
 
 #endif // CTEXTENGINE_H
 
-
+#define CLI_NOT_EXIST -1
 #define CLI_BOOL CTEXT_BOOL
 #define CLI_DOUBLE CTEXT_DOUBLE
 #define CLI_LONG CTEXT_LONG
@@ -1409,6 +1418,8 @@ CTextStack *private_cli_get_flag_if_its_an_flag(CTextArray *identifiers,CTextSta
 //getterso of arrays
 int private_cli_get_type_from_array(CTextArray *elements,int position);
 
+bool private_cli_verifiy_if_element_is_numeric(CTextArray *elements,int position);
+
 const char * private_cli_get_type_in_str_from_array(CTextArray *elements,int position);
 
 char * private_cli_get_str_from_array(privateCliGarbage *garbage, CTextArray *elements, int position,bool case_sensitive);
@@ -1435,6 +1446,7 @@ CliFlag *private_cli_newCliFlag();
 void private_cli_CliFlag_free(CliFlag *self);
 
 int CliFlag_typeof_arg(CliFlag *self, int position);
+bool CliFlag_is_numeric(CliFlag *self, int position);
 const char *CliFlag_typeof_arg_in_str(CliFlag *self, int position);
 char* CliFlag_get_str(CliFlag *self, int position, bool case_sensitive);
 long  CliFlag_get_long(CliFlag *self, int position);
@@ -1462,12 +1474,16 @@ typedef struct CliEntry{
 
 CliEntry * newCliEntry(int argc, char **argv);
 int CliEntry_typeof_arg(CliEntry *self,int position);
+
+bool CliEntry_is_numeric(CliEntry *self,int position);
+
 const char *CliEntry_typeof_arg_in_str(CliEntry *self,int position);
 
 CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive);
 char*   CliEntry_get_str(CliEntry *self, int position, bool case_sensitive);
 
 long    CliEntry_get_long(CliEntry *self, int position);
+
 double  CliEntry_get_double(CliEntry *self, int position);
 bool  CliEntry_represent(CliEntry *self);
 
@@ -1481,13 +1497,17 @@ void CliEntry_free(struct CliEntry *self);
 
 typedef struct CliEntryModule{
 
-    CliFlag *(*get_flag)(struct CliEntry *self,const char *flags,bool case_sensitive);
-    char*   (*get_str)(struct CliEntry *self, int position, bool case_sensitive);
+    CliEntry *(*newEntry)(int argc, char **argv);
+    int (*typeof_arg)(CliEntry *self, int position);
+    bool (*is_numeric)(CliEntry *self,int position);
+    const char *(*typeof_arg_in_str)(CliEntry *self, int position);
+    CliFlag *(*get_flag)(CliEntry *self,const char *flags,bool case_sensitive);
+    char*   (*get_str)(CliEntry *self, int position, bool case_sensitive);
 
-    long    (*get_long)(struct CliEntry *self, int position);
-    double  (*get_double)(struct CliEntry *self, int position);
-    double  (*get_bool)(struct CliEntry *self, int position);
-    void (*free)(struct CliEntry *self);
+    long    (*get_long)(CliEntry *self, int position);
+    double  (*get_double)(CliEntry *self, int position);
+    bool  (*get_bool)(CliEntry *self, int position);
+    void (*free)(CliEntry *self);
 
 }CliEntryModule;
 
@@ -1497,12 +1517,15 @@ CliEntryModule newCliEntryModule();
 
 
 typedef struct CliFlagModule{
+
     int      (*typeof_arg)(struct CliFlag *self, int position);
+    bool (*is_numeric)(CliFlag *self,int position);
+
     const char *(*type_of_arg_in_str)(struct CliFlag *self, int position);
-    char*   (*get_string)(struct CliFlag *self, int position,bool case_sensitive);
+    char*   (*get_str)(struct CliFlag *self, int position, bool case_sensitive);
     long    (*get_long)(struct CliFlag *self, int position);
     double  (*get_double)(struct CliFlag *self, int position);
-    double  (*get_bool)(struct CliFlag *self, int position);
+    bool  (*get_bool)(struct CliFlag *self, int position);
 
 
 }CliFlagModule;
@@ -1510,6 +1533,12 @@ typedef struct CliFlagModule{
 CliFlagModule newCliFlagModule();
 
 
+typedef struct CliNamespace{
+    CliEntryModule entry;
+    CliFlagModule  flag;
+}CliNamespace;
+
+CliNamespace newCliNamespace();
 
 
 
@@ -1607,16 +1636,23 @@ CTextStack *private_cli_get_flag_if_its_an_flag(CTextArray *identifiers,CTextSta
 }
 int private_cli_get_type_from_array(CTextArray *elements,int position){
     if(position >=elements->size){
-        return -1;
+        return CLI_NOT_EXIST;
     }
     CTextStack *current = elements->stacks[position];
     return CTextStack_typeof(current);
+}
+bool private_cli_verifiy_if_element_is_numeric(CTextArray *elements,int position){
+    int type = private_cli_get_type_from_array(elements,position);
+    if(type ==CLI_LONG || type == CLI_DOUBLE){
+        return true;
+    }
+    return false;
 }
 
 
 const char * private_cli_get_type_in_str_from_array(CTextArray *elements,int position){
     if(position >=elements->size){
-        return NULL;
+        return  "not exist";
     }
     CTextStack *current = elements->stacks[position];
     return CTextStack_typeof_in_str(current);
@@ -1680,6 +1716,10 @@ void private_cli_CliFlag_free(CliFlag *self){
 
 int CliFlag_typeof_arg(CliFlag *self, int position){
     return private_cli_get_type_from_array(self->elements,position);
+}
+
+bool CliFlag_is_numeric(CliFlag *self, int position){
+    return private_cli_verifiy_if_element_is_numeric(self->elements,position);
 }
 
 const char *CliFlag_typeof_arg_in_str(CliFlag *self, int position){
@@ -1763,6 +1803,10 @@ int CliEntry_typeof_arg(CliEntry *self,int position){
     return private_cli_get_type_from_array(self->elements,position);
 }
 
+bool CliEntry_is_numeric(CliEntry *self,int position){
+    return private_cli_verifiy_if_element_is_numeric(self->elements,position);
+}
+
 const char *CliEntry_typeof_arg_in_str(CliEntry *self,int position){
     return private_cli_get_type_in_str_from_array(self->elements,position);
 }
@@ -1795,9 +1839,40 @@ void CliEntry_free(struct CliEntry *self){
 
 
 
+CliEntryModule newCliEntryModule(){
+    CliEntryModule self = {0};
+    self.newEntry = newCliEntry;
+    self.is_numeric = CliEntry_is_numeric;
+    self.typeof_arg = CliEntry_typeof_arg;
+    self.typeof_arg_in_str = CliEntry_typeof_arg_in_str;
+    self.get_flag =CliEntry_get_flag;
+    self.get_long = CliEntry_get_long;
+    self.get_str = CliEntry_get_str;
+    self.get_double = CliEntry_get_double;
+    self.get_bool = CliEntry_get_bool;
+    self.free = CliEntry_free;
+    return self;
+}
 
 
+CliFlagModule newCliFlagModule(){
+    CliFlagModule self = {0};
+    self.typeof_arg = CliFlag_typeof_arg;
+    self.is_numeric =CliFlag_is_numeric;
+    self.type_of_arg_in_str = CliFlag_typeof_arg_in_str;
+    self.get_str = CliFlag_get_str;
+    self.get_long = CliFlag_get_long;
+    self.get_double = CliFlag_get_double;
+    self.get_bool = CliFlag_get_bool;
+    return self;
+}
 
 
+CliNamespace newCliNamespace(){
+    CliNamespace self = {0};
+    self.flag = newCliFlagModule();
+    self.entry = newCliEntryModule();
+    return self;
+}
 
 

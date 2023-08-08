@@ -19,13 +19,17 @@ class FolderTestPressetCreation(FolderTestPresetExtras):
         expected_file = self._get_expected_file(folder)
 
 
+        with open(f'{folder}/entry.txt','r') as arq:
+            entry_content = arq.read()
+            entry_values = entry_content.split(' ')
+
         generated_result: dict or ComandLineExecution = execute_test_for_file(
                 file=execution_file,
                 compiler=self._compiler,
                 copilation_flags=self._compilation_flags,
-                execution_flags=self._execution_flags,
+                execution_flags=entry_values,
                 use_valgrind=self._use_valgrind,
-                raise_warnings=self._raise_warnings
+                raise_warnings=self._raise_warnings,
         )
 
         modified = False
