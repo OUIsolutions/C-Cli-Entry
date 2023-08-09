@@ -104,6 +104,8 @@ int main(int argc, char **argv){
 
 }
 ~~~
+
+### A Calculator With Flags
 <!--codeof:exemples/calc_flags.c-->
 ~~~c
 
