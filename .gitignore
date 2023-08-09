@@ -6,7 +6,7 @@ out_folder
 *.ko
 *.obj
 *.elf
-
+main.c
 # Linker output
 *.ilk
 *.map
