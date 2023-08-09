@@ -56,6 +56,7 @@ CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive)
     return flag;
 
 }
+
 int CliEntry_typeof_arg(CliEntry *self,int position){
     return private_cli_get_type_from_array(self->elements,position);
 }
@@ -83,9 +84,11 @@ double CliEntry_get_double(CliEntry *self, int position){
 bool CliEntry_get_bool(CliEntry *self, int position){
     return private_cli_get_bool_from_array(self->elements,position);
 }
+
 bool  CliEntry_represent(CliEntry *self){
     CTextArray_represent(self->elements);
 }
+
 void CliEntry_free(struct CliEntry *self){
     CTextArray_free(self->elements);
     private_cli_free_garbage(self->private_garbage);

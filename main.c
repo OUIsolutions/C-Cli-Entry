@@ -9,40 +9,48 @@ int main(int argc, char **argv){
 
     CliEntry *entry = newCliEntry(argc,argv);
 
+    CliFlag *numbers = cli.entry.get_flag(entry,"n | numbers | values",CLI_NOT_CASE_SENSITIVE);
 
-
-    if(entry->size < 2){
-        printf("number 1 not exist\n");
+    if(!numbers->exist){
+        printf("numbers not found\n");
         cli.entry.free(entry);
         return 0;
     }
-
-    if(!cli.entry.is_numeric(entry,2)){
-        printf("number 1 is not an number\n");
+    
+    if(numbers->size != 2){
+        printf("two numbers is required \n");
         cli.entry.free(entry);
-        return 0;
+        return 0; 
     }
 
-    if(entry->size < 3){
-        printf("number 2 not exist\n");
+    if(!cli.flag.is_numeric(numbers,0)){
+        printf("the first number is not an num\n");
         cli.entry.free(entry);
-        return 0;
+        return 0; 
     }
-
-    if(!cli.entry.is_numeric(entry,3)){
-        printf("number 2 is not an number\n");
+    if(!cli.flag.is_numeric(numbers,1)){
+        printf("the second number is not an num\n");
         cli.entry.free(entry);
-        return 0;
+        return 0; 
     }
-    double n1 = cli.entry.get_double(entry,2);
-    double n2 = cli.entry.get_double(entry,3);
-    char *operation = cli.entry.get_str(entry,1,CLI_NOT_CASE_SENSITIVE);
+    double n1 = cli.flag.get_double(numbers,0);
+    double n2 = cli.flag.get_double(numbers,1);
 
-    if(!operation){
+    CliFlag *operation_flag  = cli.entry.get_flag(entry,"op | operation | calculation | calc",CLI_NOT_CASE_SENSITIVE);
+    
+    if(!operation_flag->exist){
         printf("operation not found\n");
         cli.entry.free(entry);
         return 0;
     }
+    
+    if(operation_flag->size == 0){
+        printf("operation canot be empty");
+        cli.entry.free(entry);
+        return 0;  
+    }
+    char *operation = cli.flag.get_str(operation_flag,1,CLI_NOT_CASE_SENSITIVE);
+
     double  result;
     if(strcmp(operation,"add") == 0){
         result = n1+n2;
