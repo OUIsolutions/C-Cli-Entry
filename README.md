@@ -71,6 +71,8 @@ int main(int argc, char **argv){
 
 ~~~
 ### Retriving flags 
+you can use  **cli.entry.get_flag** to retrive flags 
+in these exemple I retrived the -o/-out flag
 <!--codeof:exemples/output_flag.c-->
 ~~~c
 #include "CliEntry.h"
