@@ -16,8 +16,8 @@ typedef struct privateCliGarbage{
 
 
 privateCliGarbage *private_cli_newGarbageArray();
-privateCliGarbage *private_CliGarbage_append(privateCliGarbage*self, int type, void *value);
-privateCliGarbage *private_cli_free_garbage(privateCliGarbage*self);
+void private_CliGarbage_append(privateCliGarbage*self, int type, void *value);
+void private_cli_free_garbage(privateCliGarbage*self);
 
 
 

@@ -9,7 +9,7 @@ typedef struct CliEntry{
     int size;
     privateCliGarbage  * private_garbage;
 
-    char *flag_identifiers;
+    const char *flag_identifiers;
 
 
 

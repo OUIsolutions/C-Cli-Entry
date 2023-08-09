@@ -4,6 +4,7 @@ CliFlag *private_cli_newCliFlag(){
     *self = (CliFlag){0};
     self->elements = newCTextArray();
     self->private_garbage = private_cli_newGarbageArray();
+    return self;
 }
 
 void private_cli_CliFlag_free(CliFlag *self){

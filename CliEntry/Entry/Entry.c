@@ -7,6 +7,7 @@ CliEntry * newCliEntry(int argc, char **argv){
     self->private_garbage = private_cli_newGarbageArray();
 
     self->flag_identifiers = " - | -- | --- ";
+    
     for(int i = 0; i < argc; i++){
         CTextArray_append_string(self->elements,argv[i]);
     }
