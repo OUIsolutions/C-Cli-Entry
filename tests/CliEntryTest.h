@@ -1453,6 +1453,9 @@ long  CliFlag_get_long(CliFlag *self, int position);
 double CliFlag_get_double(CliFlag *self, int position);
 bool CliFlag_get_bool(CliFlag *self, int position);
 
+void CliFlag_represent(CliFlag *self);
+
+
 
 
 
@@ -1485,11 +1488,11 @@ char*   CliEntry_get_str(CliEntry *self, int position, bool case_sensitive);
 long    CliEntry_get_long(CliEntry *self, int position);
 
 double  CliEntry_get_double(CliEntry *self, int position);
-bool  CliEntry_represent(CliEntry *self);
 
 bool  CliEntry_get_bool(CliEntry *self, int position);
 void CliEntry_free(struct CliEntry *self);
 
+void  CliEntry_represent(CliEntry *self);
 
 
 
@@ -1507,6 +1510,8 @@ typedef struct CliEntryModule{
     long    (*get_long)(CliEntry *self, int position);
     double  (*get_double)(CliEntry *self, int position);
     bool  (*get_bool)(CliEntry *self, int position);
+
+    void (*represent)(CliEntry *self);
     void (*free)(CliEntry *self);
 
 }CliEntryModule;
@@ -1518,14 +1523,15 @@ CliEntryModule newCliEntryModule();
 
 typedef struct CliFlagModule{
 
-    int      (*typeof_arg)(struct CliFlag *self, int position);
+    int      (*typeof_arg)(CliFlag *self, int position);
     bool (*is_numeric)(CliFlag *self,int position);
 
-    const char *(*type_of_arg_in_str)(struct CliFlag *self, int position);
-    char*   (*get_str)(struct CliFlag *self, int position, bool case_sensitive);
-    long    (*get_long)(struct CliFlag *self, int position);
-    double  (*get_double)(struct CliFlag *self, int position);
-    bool  (*get_bool)(struct CliFlag *self, int position);
+    const char *(*type_of_arg_in_str)(CliFlag *self, int position);
+    char*   (*get_str)(CliFlag *self, int position, bool case_sensitive);
+    long    (*get_long)(CliFlag *self, int position);
+    double  (*get_double)(CliFlag *self, int position);
+    bool  (*get_bool)(CliFlag *self, int position);
+    void  (*represent)(CliFlag *self);
 
 
 }CliFlagModule;
@@ -1733,11 +1739,20 @@ char* CliFlag_get_str(CliFlag *self, int position, bool case_sensitive){
 long  CliFlag_get_long(CliFlag *self, int position){
     return private_cli_get_long_from_array(self->elements,position);
 }
+
 double CliFlag_get_double(CliFlag *self, int position){
     return private_cli_get_double_from_array(self->elements,position);
 }
+
 bool CliFlag_get_bool(CliFlag *self, int position){
     return private_cli_get_bool_from_array(self->elements,position);
+}
+
+void CliFlag_represent(CliFlag *self){
+    printf("exist: %s\n",self->exist ?"true":"false");
+    printf("size :%d\n",self->size);
+    printf("flags: \n");
+    CTextArray_represent(self->elements);
 }
 
 
@@ -1791,7 +1806,7 @@ CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive)
             }
         }
     }
-
+    flag->size = (int)flag->elements->size;
 
     CTextArray_free(identifiers);
     CTextArray_free(formated_flags);
@@ -1799,6 +1814,7 @@ CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive)
     return flag;
 
 }
+
 int CliEntry_typeof_arg(CliEntry *self,int position){
     return private_cli_get_type_from_array(self->elements,position);
 }
@@ -1826,9 +1842,13 @@ double CliEntry_get_double(CliEntry *self, int position){
 bool CliEntry_get_bool(CliEntry *self, int position){
     return private_cli_get_bool_from_array(self->elements,position);
 }
-bool  CliEntry_represent(CliEntry *self){
+
+void  CliEntry_represent(CliEntry *self){
+    printf("size :%d\n",self->size);
+    printf("args:\n");
     CTextArray_represent(self->elements);
 }
+
 void CliEntry_free(struct CliEntry *self){
     CTextArray_free(self->elements);
     private_cli_free_garbage(self->private_garbage);
@@ -1850,6 +1870,7 @@ CliEntryModule newCliEntryModule(){
     self.get_str = CliEntry_get_str;
     self.get_double = CliEntry_get_double;
     self.get_bool = CliEntry_get_bool;
+    self.represent = CliEntry_represent;
     self.free = CliEntry_free;
     return self;
 }
@@ -1864,6 +1885,7 @@ CliFlagModule newCliFlagModule(){
     self.get_long = CliFlag_get_long;
     self.get_double = CliFlag_get_double;
     self.get_bool = CliFlag_get_bool;
+    self.represent =CliFlag_represent;
     return self;
 }
 
