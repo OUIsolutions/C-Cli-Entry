@@ -107,6 +107,10 @@ int main(int argc, char **argv){
     return 0;
 }
 ~~~
+
+
+
+### An Basic Calculator
 <!--codeof:exemples/calc.c-->
 ~~~c
 #include "CliEntry.h"
