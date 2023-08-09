@@ -1400,8 +1400,8 @@ typedef struct privateCliGarbage{
 
 
 privateCliGarbage *private_cli_newGarbageArray();
-privateCliGarbage *private_CliGarbage_append(privateCliGarbage*self, int type, void *value);
-privateCliGarbage *private_cli_free_garbage(privateCliGarbage*self);
+void private_CliGarbage_append(privateCliGarbage*self, int type, void *value);
+void private_cli_free_garbage(privateCliGarbage*self);
 
 
 
@@ -1469,7 +1469,7 @@ typedef struct CliEntry{
     int size;
     privateCliGarbage  * private_garbage;
 
-    char *flag_identifiers;
+    const char *flag_identifiers;
 
 
 
@@ -1554,21 +1554,22 @@ CliNamespace newCliNamespace();
 
 privateCliGarbage *private_cli_newGarbageArray(){
     privateCliGarbage *self = (privateCliGarbage*) malloc(sizeof (privateCliGarbage));
-    self->values = malloc(0);
+    self->values = (privateCliGarbageElement**)(0);
     self->size = 0;
     return self;
 }
 
-privateCliGarbage *private_CliGarbage_append(privateCliGarbage*self, int type, void *value){
+void private_CliGarbage_append(privateCliGarbage*self, int type, void *value){
     self->values = (privateCliGarbageElement**) realloc(self->values, (self->size + 1) * sizeof (privateCliGarbageElement**));
     privateCliGarbageElement *new_garbage = (privateCliGarbageElement*) malloc(sizeof (privateCliGarbageElement));
     new_garbage->type = type;
     new_garbage->value = value;
     self->values[self->size] = new_garbage;
     self->size+=1;;
+    
 }
 
-privateCliGarbage *private_cli_free_garbage(privateCliGarbage*self){
+void private_cli_free_garbage(privateCliGarbage*self){
     for(int i = 0 ; i < self->size; i++){
         privateCliGarbageElement *current = self->values[i];
         if(current->type == PRIVATE_CLI_CHAR_TRASH){
@@ -1711,6 +1712,7 @@ CliFlag *private_cli_newCliFlag(){
     *self = (CliFlag){0};
     self->elements = newCTextArray();
     self->private_garbage = private_cli_newGarbageArray();
+    return self;
 }
 
 void private_cli_CliFlag_free(CliFlag *self){
@@ -1765,6 +1767,7 @@ CliEntry * newCliEntry(int argc, char **argv){
     self->private_garbage = private_cli_newGarbageArray();
 
     self->flag_identifiers = " - | -- | --- ";
+    
     for(int i = 0; i < argc; i++){
         CTextArray_append_string(self->elements,argv[i]);
     }
