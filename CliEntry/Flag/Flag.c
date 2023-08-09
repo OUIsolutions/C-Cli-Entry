@@ -32,9 +32,18 @@ char* CliFlag_get_str(CliFlag *self, int position, bool case_sensitive){
 long  CliFlag_get_long(CliFlag *self, int position){
     return private_cli_get_long_from_array(self->elements,position);
 }
+
 double CliFlag_get_double(CliFlag *self, int position){
     return private_cli_get_double_from_array(self->elements,position);
 }
+
 bool CliFlag_get_bool(CliFlag *self, int position){
     return private_cli_get_bool_from_array(self->elements,position);
+}
+
+void CliFlag_represent(CliFlag *self){
+    printf("exist: %s\n",self->exist ?"true":"false");
+    printf("size :%d\n",self->size);
+    printf("flags: \n");
+    CTextArray_represent(self->elements);
 }

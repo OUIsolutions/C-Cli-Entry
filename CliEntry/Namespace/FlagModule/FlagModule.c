@@ -8,5 +8,6 @@ CliFlagModule newCliFlagModule(){
     self.get_long = CliFlag_get_long;
     self.get_double = CliFlag_get_double;
     self.get_bool = CliFlag_get_bool;
+    self.represent =CliFlag_represent;
     return self;
 }

@@ -48,7 +48,7 @@ CliFlag *CliEntry_get_flag(CliEntry *self,const char *flags,bool case_sensitive)
             }
         }
     }
-
+    flag->size = (int)flag->elements->size;
 
     CTextArray_free(identifiers);
     CTextArray_free(formated_flags);

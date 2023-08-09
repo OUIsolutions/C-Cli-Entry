@@ -21,3 +21,6 @@ long  CliFlag_get_long(CliFlag *self, int position);
 double CliFlag_get_double(CliFlag *self, int position);
 bool CliFlag_get_bool(CliFlag *self, int position);
 
+void CliFlag_represent(CliFlag *self);
+
+

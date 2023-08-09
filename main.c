@@ -11,6 +11,8 @@ int main(int argc, char **argv){
 
     CliFlag *numbers = cli.entry.get_flag(entry,"n | numbers | values",CLI_NOT_CASE_SENSITIVE);
 
+    cli.flag.represent(numbers);
+
     if(!numbers->exist){
         printf("numbers not found\n");
         cli.entry.free(entry);
