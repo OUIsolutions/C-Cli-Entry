@@ -9,7 +9,21 @@ int main(int argc, char **argv){
 
     CliNamespace cli = newCliNamespace();
 
+
     CliEntry *entry = newCliEntry(argc,argv);
+
+    CliFlag *help = cli.entry.get_flag(entry,"h | help",CLI_NOT_CASE_SENSITIVE);
+    if(help->exist){
+        printf("flags:\n");
+        printf("\tn:(the 2 numbers for te operation)\n");
+        printf("\top:(the operation (add,mull,div,sub))\n");
+        printf("exemples:\n");
+        printf("\t-op add -n 10 20\n");
+        printf("\t-op sub -n 10 20\n");
+
+        cli.entry.free(entry);
+        return 0;
+    }
 
     CliFlag *numbers = cli.entry.get_flag(entry,"n | numbers | values",CLI_NOT_CASE_SENSITIVE);
 
