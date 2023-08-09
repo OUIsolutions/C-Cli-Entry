@@ -21,7 +21,7 @@ def create_full_folder_cleared(folder:str,dest:str,zip_name:str):
         
         if c.endswith('.pyc'):
             continue
-
+        
         if c.startswith('__pycache__'):
             continue
 
