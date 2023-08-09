@@ -37,8 +37,7 @@ int main(int argc, char **argv){
     double n1 = cli.flag.get_double(numbers,0);
     double n2 = cli.flag.get_double(numbers,1);
 
-    CliFlag *operation_flag  = cli.entry.get_flag(entry,"op | operation | calculation | calc",CLI_NOT_CASE_SENSITIVE);
-    
+    CliFlag *operation_flag  = cli.entry.get_flag(entry,"op | operation | calculation | calc",CLI_NOT_CASE_SENSITIVE);    
     if(!operation_flag->exist){
         printf("operation not found\n");
         cli.entry.free(entry);
@@ -46,12 +45,12 @@ int main(int argc, char **argv){
     }
     
     if(operation_flag->size == 0){
-        printf("operation canot be empty");
+        printf("operation canot be empty\n");
         cli.entry.free(entry);
         return 0;  
     }
-    char *operation = cli.flag.get_str(operation_flag,1,CLI_NOT_CASE_SENSITIVE);
-
+    char *operation = cli.flag.get_str(operation_flag,0,CLI_NOT_CASE_SENSITIVE);
+    
     double  result;
     if(strcmp(operation,"add") == 0){
         result = n1+n2;
@@ -70,6 +69,7 @@ int main(int argc, char **argv){
         cli.entry.free(entry);
         return 0;
     }
+
     printf("result: %lf\n",result);
     cli.entry.free(entry);
     return 0;
