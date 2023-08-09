@@ -9,6 +9,7 @@ CliEntryModule newCliEntryModule(){
     self.get_str = CliEntry_get_str;
     self.get_double = CliEntry_get_double;
     self.get_bool = CliEntry_get_bool;
+    self.represent = CliEntry_represent;
     self.free = CliEntry_free;
     return self;
 }

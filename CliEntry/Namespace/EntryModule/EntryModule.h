@@ -11,6 +11,8 @@ typedef struct CliEntryModule{
     long    (*get_long)(CliEntry *self, int position);
     double  (*get_double)(CliEntry *self, int position);
     bool  (*get_bool)(CliEntry *self, int position);
+
+    void (*represent)(CliEntry *self);
     void (*free)(CliEntry *self);
 
 }CliEntryModule;

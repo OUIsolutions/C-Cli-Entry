@@ -85,7 +85,9 @@ bool CliEntry_get_bool(CliEntry *self, int position){
     return private_cli_get_bool_from_array(self->elements,position);
 }
 
-bool  CliEntry_represent(CliEntry *self){
+void  CliEntry_represent(CliEntry *self){
+    printf("size :%d\n",self->size);
+    printf("args:\n");
     CTextArray_represent(self->elements);
 }
 
