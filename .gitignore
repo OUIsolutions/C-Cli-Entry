@@ -1,6 +1,6 @@
 # Prerequisites
 *.d
-
+out_folder
 # Object files
 *.o
 *.ko
