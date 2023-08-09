@@ -1,0 +1,7 @@
+ 
+flags:
+	n:(the 2 numbers for te operation)
+	op:(the operation (add,mull,div,sub))
+exemples:
+	-op add -n 10 20
+	-op sub -n 10 20
